@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {reactLocalStorage} from 'reactjs-localstorage';
 import FilterTasks from './FilterTasks'
 import InputTasks from './InputTasks'
 import ShowTime from './ShowTime'
@@ -6,17 +7,43 @@ import RadioTasks from './RadioTasks'
 export default class Dashboard extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            text: '',
-            currentDate: new Date(),
-            tasks: [],
-            showlist: 'All',
-            searchin: ''
-        }
-
+        // this.state = {
+        //     text: '',
+        //     currentDate: new Date(),
+        //     tasks: [],
+        //     showlist: 'All',
+        //     searchin: ''
+        // }
+        this.getFromLocalStorage()
         this.newinput = React.createRef();
         this.editinput = React.createRef();
         this.currentTime()
+
+        
+    }
+    // componentDidMount(){
+    //     reactLocalStorage.setObject('todolist', this.state);
+    // }
+    componentDidUpdate(){
+        reactLocalStorage.setObject('todolist', this.state);
+
+    }
+    getFromLocalStorage(){
+        const obj= reactLocalStorage.getObject('todolist');
+        console.log(obj);
+        if(Object.keys(obj).length === 0 && obj.constructor === Object) {
+            this.state = {
+                text: '',
+                currentDate: new Date(),
+                tasks: [],
+                showlist: 'All',
+                searchin: ''
+            }
+        }
+        else {
+            this.state=obj
+
+        }
     }
     createTaskDate(date) {
         const createdate = String(date.getFullYear()) + "/" +
@@ -45,6 +72,8 @@ export default class Dashboard extends Component {
             searchin: ''
 
         })
+        // this.setToLocalStorage()
+
     }
     changeInput = (e) => {
         this.setState({ text: e.current.value })
@@ -135,7 +164,7 @@ export default class Dashboard extends Component {
 // return this.currentTime(date)
     }
     render() {
-
+        
         return (
             <>
                 <div className='row h1'>
@@ -151,6 +180,7 @@ export default class Dashboard extends Component {
                             handleAddTask={this.addTask}
                             handleSearchTask={this.searchTask}
                             handleChangeEvent={(e) => this.changeInput(e)}
+                            
                         />
                     </div>
                     <div className='col-2'>
@@ -166,6 +196,7 @@ export default class Dashboard extends Component {
                         handledelindex={this.deleteTask}
                         handleeditindex={this.editTask}
                         handleupdateindex={this.updateTask}
+                        
                     />
                 </div>
 

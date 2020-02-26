@@ -2,7 +2,7 @@ import React from 'react'
 import ShowTask from './ShowTask'
 
 export default function FilterTasks(props) {
-    console.log(props);
+    // console.log(props);
     
     let newTodoList=[];
     if (props.data.showlist == 'All') newTodoList=props.data.tasks;
@@ -28,6 +28,7 @@ export default function FilterTasks(props) {
                     handleupdate={(e)=>props.handleupdateindex(e,todo.id)}
                     handleedit={()=>props.handleeditindex(todo.id)}
                     handledel={()=>props.handledelindex(todo.id)}
+                    
                     />
     
                 )

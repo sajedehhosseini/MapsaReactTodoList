@@ -16,7 +16,8 @@ export default function ShowTask(props) {
                 {
                     props.todo.editflg &&
                     <>
-                        <input type="text" className="form-control border-right-0 border-success border-left-0 pl-5" aria-label="Text input with checkbox" placeholder={props.todo.title} ref={editinput} />
+                        <input type="text" className="form-control border-right-0 border-success border-left-0 pl-5" aria-label="Text input with checkbox" 
+                        placeholder={props.todo.title} ref={editinput} />
                         <div className="input-group-prepend">
                             <button className="btn btn-success pr-4 pl-4" type="button" onClick={() => props.handleupdate(editinput)}>
                                 <i className='fa fa-send'></i>
