@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-export default function ShowTime() {
+export default function ShowTime(props) {
+    // setInterval(() => 
+    // props.time()
+    // , 36000)
+    
     return (
         <div>
             <div className='pt-1 ml-3 text-success h5'>
-                <i className='fa fa-clock'></i> date  00:00
+time
+                {/* <>{ props.nowTime.currentDate }</> */}
+               
             </div>
         </div>
     )

@@ -10,12 +10,13 @@ export default class Dashboard extends Component {
             text: '',
             currentDate: new Date(),
             tasks: [],
-            showlist: 'All'
+            showlist: 'All',
+            searchin: ''
         }
 
         this.newinput = React.createRef();
         this.editinput = React.createRef();
-
+        this.currentTime()
     }
     createTaskDate(date) {
         const createdate = String(date.getFullYear()) + "/" +
@@ -27,9 +28,8 @@ export default class Dashboard extends Component {
 
 
     }
-    addTask = () => {
-        const val = this.newinput.current.value;
-        console.log(val);
+    addTask = (e) => {
+        const val = e.current.value;
         this.setState({
             tasks: [
                 ...this.state.tasks,
@@ -41,50 +41,66 @@ export default class Dashboard extends Component {
                     createDate: this.createTaskDate(new Date()),
                 }
             ],
-            text: ""
+            text: "",
+            searchin: ''
+
         })
     }
-    changeInput = (e)=>{
-console.log(e.current.value);
-
+    changeInput = (e) => {
+        this.setState({ text: e.current.value })
     }
-    searchTask = () => {
-        const val = this.newinput.current.value;
-        console.log(val);
-        // <SearchTask/>
+    searchTask = (e) => {
+        this.setState({ searchin: e.current.value })
+
     }
     editTask = (id) => {
         this.setState(state => {
+          return{
             tasks: state.tasks.map(todo => {
                 if (todo.id == id) {
                     todo.editflg = !todo.editflg
                 }
                 return todo
             })
+          }   
         })
         console.log('edited');
         console.log(this.state.tasks);
 
     }
-    deleteTask(id) {
+    deleteTask = (id) => {
         console.log(id);
+        this.setState(state => {
+            return {
+                tasks: this.state.tasks.filter(todo => {
+                    if (todo.id !== id) {
+                        return todo
+                    }
+                    return null
+                }).map(todo => {
+                    console.log(todo);
+
+                    return todo
+
+                })
+            }
+        })
+        console.log(this.state);
 
     }
     doneTask = (id) => {
         this.setState(state => {
+          return{
             tasks: state.tasks.map(todo => {
                 if (todo.id == id) {
                     todo.done = !todo.done
                 }
                 return todo
             })
+          }  
         })
         console.log('edited');
         console.log(this.state.tasks);
-    }
-    newEditInput() {
-        console.log('edit');
-
     }
     updateTask = (e, id) => {
         const val = e.current.value;
@@ -92,15 +108,17 @@ console.log(e.current.value);
         console.log(id);
 
         this.setState(state => {
-            tasks: state.tasks.map(todo => {
-                if (todo.id == id) {
-                    todo.title = val;
-                    todo.createDate = this.createTaskDate(new Date());
-                    todo.editflg = !todo.editflg
-
-                }
-                return todo
-            })
+            return{
+                tasks: state.tasks.map(todo => {
+                    if (todo.id == id) {
+                        todo.title = val;
+                        todo.createDate = this.createTaskDate(new Date());
+                        todo.editflg = !todo.editflg
+    
+                    }
+                    return todo
+                })
+            }
         })
         console.log(this.state.tasks);
 
@@ -110,13 +128,13 @@ console.log(e.current.value);
             showlist: e.target.value
         })
     }
-    searchTask() {
-        const val = this.newinput.current.value;
-        console.log(val);
-        
+    currentTime() {
+
+            this.setState({ currentDate: this.createTaskDate(new Date()) })
+
+// return this.currentTime(date)
     }
     render() {
-        console.log('render');
 
         return (
             <>
@@ -126,14 +144,19 @@ console.log(e.current.value);
                    </>
                 </div>
                 <div className='row'>
-                   <InputTasks 
-                   data={this.state} 
-                   handleAddTask={(e)=>this.addTask(e)}
-                   handleSearchTask={(e)=>this.searchTask(e)}
-                   handleChangeEvent={this.changeInput}
-                   />
-                    <ShowTime />
+                    <div className='col-10'>
 
+                        <InputTasks
+                            data={this.state}
+                            handleAddTask={this.addTask}
+                            handleSearchTask={this.searchTask}
+                            handleChangeEvent={(e) => this.changeInput(e)}
+                        />
+                    </div>
+                    <div className='col-2'>
+
+                        <ShowTime time={()=>this.currentTime()} nowTime={this.state} />
+                    </div>
                 </div>
                 <RadioTasks handleChangeOption={this.ChangeOption} />
                 <div className='row h2 d-flex flex-column p-3'>

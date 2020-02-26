@@ -9,7 +9,8 @@ export default function ShowTask(props) {
             <div className="input-group mb-3">
                 <div className="input-group-prepend">
                     <div className="input-group-text bg-success border-success">
-                        <input type="checkbox" aria-label="Checkbox for following text input" onClick={props.handledone} checked={props.todo.done?'checked':'' } />
+                        <input type="checkbox" aria-label="Checkbox for following text input" onClick={props.handledone} 
+                        checked={props.todo.done?'checked':'' } />
                     </div>
                 </div>
                 {
@@ -34,7 +35,7 @@ export default function ShowTask(props) {
                     </label>
                     <div className="input-group-prepend">
                     <span className="input-group-text bg-light border-top border-bottom  border-left-0 border-success pl-5 pr-5">
-                        {props.todo.createDate}
+                        create time : {props.todo.createDate} , dead time : {props.todo.createDate}
                     </span>
                     <button className="btn btn-success pr-4 pl-4" type="button" onClick={props.handleedit}>
                         <i className='fa fa-edit'></i>
